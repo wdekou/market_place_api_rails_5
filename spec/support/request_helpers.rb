@@ -11,7 +11,7 @@ module Request
       request.headers['Accept'] = "application/vnd.marketplace.v#{version}"
     end
 
-    def api_response_format(format = Mime::JSON )
+    def api_response_format(format = Mime[:json] )
       request.headers['Accept'] = "#{request.headers['Accept']}, #{format}"
       request.headers['Content-Type'] = format.to_s
     end
@@ -19,6 +19,14 @@ module Request
     def include_default_accept_headers
       api_header
       api_response_format
+    end
+  end
+end
+
+module Session
+  module CredentialsHelpers
+    def credentials_info
+      @credentials_info ||=  { email: @user.email, password: "invalidpassword" }
     end
   end
 end
