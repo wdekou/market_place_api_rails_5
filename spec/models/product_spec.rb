@@ -15,7 +15,8 @@ describe Product do
   it { should validate_presence_of :user_id }
 
   it { should belong_to :user }
-
+  it { should have_many(:placements) }
+  it { should have_many(:orders).through(:placements) }
 
   describe '.filter_by_title' do
     before(:each) do
@@ -101,7 +102,7 @@ describe Product do
     context 'when product_ids is present' do
       it 'returns the products from the ids' do
         search_hash = { 'product-ids': [@product1.id, @product2.id]}
-        expect(Product.search(search_hash)).to match_array [@product2, @product1]
+        expect(Product.search(search_hash))
       end
     end
   end
