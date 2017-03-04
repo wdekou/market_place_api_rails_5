@@ -16,7 +16,7 @@ describe Api::V1::SessionsController do
 
       it "returns the user record corresponding to the given credentials " do
         @user.reload
-        expect(json_response[:auth_token]).to eql @user.auth_token
+        expect(json_response[:data][:attributes][:"auth-token"]).to eql @user.auth_token
       end
 
       it { should respond_with 200 }
@@ -41,7 +41,7 @@ describe Api::V1::SessionsController do
     before(:each) do
       @user = FactoryGirl.create :user
       sign_in @user
-      delete :destroy, id: @user.auth_token
+      delete :destroy, params: {id: @user.auth_token}
     end
 
     it { should respond_with 204 }
