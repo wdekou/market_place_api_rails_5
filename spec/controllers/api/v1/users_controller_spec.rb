@@ -1,3 +1,4 @@
+
 require 'spec_helper'
 
 describe Api::V1::UsersController do
@@ -59,6 +60,7 @@ describe Api::V1::UsersController do
     context "when is successfully updated" do
       before(:each) do
         @user = FactoryGirl.create :user
+        request.headers['Authorization'] = @user.auth_token
         patch :update, { id: @user.id, user: { email: "newmail@example.com" } }
       end
 
@@ -73,7 +75,8 @@ describe Api::V1::UsersController do
     context "when is not created" do
       before(:each) do
         @user = FactoryGirl.create :user
-        patch :update, { id: @user.id, user: { email: "bademail.com" } }
+        api_authorization_header @user.auth_token
+        patch :update, params: {id: @user.id,  user:  { email: "badmail.com" } }
       end
 
       it "renders an errors json" do
@@ -83,6 +86,7 @@ describe Api::V1::UsersController do
 
       it "renders the json errors on whye the user could not be created" do
         user_response = json_response
+        puts user_response.inspect
         expect(user_response[:errors][:email]).to include "is invalid"
       end
 
@@ -93,6 +97,7 @@ describe Api::V1::UsersController do
   describe "DELETE #destroy" do
     before(:each) do
       @user = FactoryGirl.create :user
+      api_authorization_header @user.auth_token
       delete :destroy, { id: @user.id }
     end
 
