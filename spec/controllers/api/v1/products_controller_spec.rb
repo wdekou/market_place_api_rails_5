@@ -6,7 +6,7 @@ describe Api::V1::ProductsController do
     end
 
     it "returns the information about a reporter on a hash" do
-      product_response = json_response
+      product_response = json_response[:data][:attributes]
       expect(product_response[:title]).to eql @product.title
     end
 
@@ -20,7 +20,7 @@ describe Api::V1::ProductsController do
     end
 
     it "returns 4 records from the database" do
-      products_response = json_response
+      products_response = json_response[:data]
       expect(products_response).to have(4).items
     end
 
@@ -37,7 +37,7 @@ describe Api::V1::ProductsController do
       end
 
       it "renders the json representation for the product record just created" do
-        product_response = json_response
+        product_response = json_response[:data][:attributes]
         expect(product_response[:title]).to eql @product_attributes[:title]
       end
 
@@ -80,7 +80,7 @@ describe Api::V1::ProductsController do
       end
 
       it "renders the json representation for the updated user" do
-        product_response = json_response
+        product_response = json_response[:data][:attributes]
         expect(product_response[:title]).to eql "An expensive TV"
       end
 

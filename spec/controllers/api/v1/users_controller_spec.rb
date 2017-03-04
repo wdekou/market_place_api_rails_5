@@ -80,7 +80,6 @@ describe Api::V1::UsersController do
 
         it "renders an errors json" do
           user_response = json_response
-          puts user_response.inspect
           expect(user_response).to have_key(:errors)
         end
 

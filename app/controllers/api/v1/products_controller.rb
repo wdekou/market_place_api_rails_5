@@ -38,7 +38,6 @@ class Api::V1::ProductsController < ApplicationController
   private
     
     def product_params
-      puts params.inspect
       params.require(:product).permit(:title, :price, :published)
     end
 end
