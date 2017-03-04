@@ -7,8 +7,8 @@ class Api::V1::ProductsController < ApplicationController
   end
 
   def index
-    products = params[:"product-ids"].present? ? Product.find(params[:'product-ids']) : Product.all
-    render json: products, include: ['user']
+
+    render json: Product.search(params), include: ['user']
   end
   
   def create
